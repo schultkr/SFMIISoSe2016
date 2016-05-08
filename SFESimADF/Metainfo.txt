@@ -1,0 +1,13 @@
+Name of QuantLet: SFESimADF
+
+Published in: Statistics of Financial Markets
+
+Description: 'Simulates stationary and non stationary ARMA processes and applies the Augmented-Dickey-Fuller test with different lags included to show how the power and level of the test varies'
+
+Keywords: time series, adf, simulation, arma, ar, ma, stationarity, explosive, unit root
+
+Author: Christoph Schult
+
+Submitted: Mon, May 09 2016 by Christoph Schult
+
+Output: 
