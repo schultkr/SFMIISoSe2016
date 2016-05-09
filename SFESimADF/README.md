@@ -1,3 +1,30 @@
+
+[<img src="https://github.com/QuantLet/Styleguide-and-FAQ/blob/master/pictures/banner.png" width="880" alt="Visit QuantNet">](http://quantlet.de/index.php?p=info)
+
+## [<img src="https://github.com/QuantLet/Styleguide-and-Validation-procedure/blob/master/pictures/qloqo.png" alt="Visit QuantNet">](http://quantlet.de/) **SFESimADF**[<img src="https://github.com/QuantLet/Styleguide-and-Validation-procedure/blob/master/pictures/QN2.png" width="60" alt="Visit QuantNet 2.0">](http://quantlet.de/d3/ia)
+
+```yaml
+Name of QuantLet: SFESimADF
+
+Published in: Statistics of Financial Markets
+
+Description: 'Simulates Augmented-Dickey-Fuller tests for stationary and non-stationary ARMA processes. The simulated process x(t) is defined by
+x(t) = alpha * x(t-1) + beta * epsilon(t-1) + epsilon(t),
+where the error term is a Gaussian White Noise process. Each process is simulated 1000 times. For each simulated process the number of lags included for the ADF test varies between 3 to 11. ’
+
+Keywords: time series, ADF, simulation, stationarity, explosive, unit root, power of test, level of test, Augmented-Dickey-Fuller test
+
+Author: Christoph Schult
+
+Submitted: Mon, May 09 2016 by Christoph Schult
+
+Output: 'A plot for the level (alpha = 0.9) and the power (alpha = 1) of the Augmented-Dickey-Fuller test. The rejection probability for beta = -0.99 (black), beta = -0.90 (red), beta = 0 (blue), beta = -0.90 (green) and beta = -0.99 (magenta) depending on the number of included lags are displayed. Two tables are printed for the minimum and maximum number of lags.'
+
+```
+
+![Picture1](LevelPowerSim.png)
+
+```r
 # remove variables
 rm(list = ls())
 
@@ -101,3 +128,4 @@ tableexpprint   = cbind(c(" ", "alpha", alpha[2], " "), c(" ", "p", pvec[1], pve
 cat("\014")
 print(tablestatprint, digits = 2)
 print(tableexpprint, digits = 2) 
+```
