@@ -2,7 +2,7 @@ Name of QuantLet: SFESimADF
 
 Published in: Statistics of Financial Markets
 
-Description: 'Simulates Augmented Dickey Fuller tests for stationary and non-stationary ARMA processes.’
+Description: 'Simulates Augmented Dickey Fuller tests for stationary and non-stationary ARMA processes.'
 
 Keywords: time series, ADF, simulation, stationarity, explosive, unit root, power of test, level of test, Augmented Dickey Fuller test
 
