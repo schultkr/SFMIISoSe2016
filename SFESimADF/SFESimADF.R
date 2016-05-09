@@ -1,6 +1,8 @@
 # remove variables
 rm(list = ls())
 
+t0 = Sys.time()
+
 # reset graphics
 graphics.off()
 
@@ -100,4 +102,6 @@ tableexpprint   = cbind(c(" ", "alpha", alpha[2], " "), c(" ", "p", pvec[1], pve
 # print tables
 cat("\014")
 print(tablestatprint, digits = 2)
-print(tableexpprint, digits = 2) 
+print(tableexpprint, digits = 2)
+t1 = Sys.time()
+t1 - t0
