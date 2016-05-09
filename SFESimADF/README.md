@@ -12,7 +12,7 @@ Description: 'Simulates Augmented-Dickey-Fuller tests for stationary and non-sta
 x(t) = alpha x(t-1) + beta epsilon(t-1) + epsilon(t),
 where the error term is a Gaussian White Noise process. Each process is simulated 1000 times. For each simulated process the number of lags included for the ADF test varies between 3 to 11.’
 
-Keywords: time series, ADF, simulation, stationarity, explosive, unit root, power of test, level of test, Augmented-Dickey-Fuller test
+Keywords: time series, ADF, simulation, stationarity, explosive, unit root, power of test, level of test, Augmented Dickey Fuller test
 
 Author: Christoph Schult
 
