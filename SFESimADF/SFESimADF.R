@@ -1,11 +1,10 @@
+# === preprocessing ===
 # remove variables
 rm(list = ls())
 
-t0 = Sys.time()
-
 # reset graphics
 graphics.off()
-
+set.seed(48)
 # Install packages if not installed
 libraries = c("tseries")
 lapply(libraries, function(Samples) if (!(Samples %in% installed.packages())) {
@@ -79,7 +78,7 @@ testexp  = mapply(ADFSimtest, expparams[, 1], expparams[, 2])
 
 
 # plot level of test
-par(mfrow = c(1, 2))
+par(mfrow = c(1, 2), cex.lab = 1.5)
 matplot(pvec, teststat * 100, type = "l", lwd = 3, ylab = "Rejection Probability", xlab = "Lags", 
         main = "Level of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
@@ -90,18 +89,20 @@ matplot(pvec, testexp * 100, type = "l", lwd = 3, ylab = "Rejection Probability"
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
 
 # round results and use only p = 3 and p = 11
-tablestationary = round(teststat[c(1, length(pvec)), ], digits = 2)
-tableexplosive  = round(testexp[c(1, length(pvec)), ], digits = 2)
+tablestationary = round(teststat[c(1, length(pvec)), ], digits = 3)
+tableexplosive  = round(testexp[c(1, length(pvec)), ], digits = 3)
 
-tablestatprint  = cbind(c(" ", "alpha", alpha[1], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), 
-                        rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tablestationary))
+tablehelp       = rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tablestationary)
+tablestatprint  = cbind(c(" ", "alpha", alpha[1], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), tablehelp)
 
-tableexpprint   = cbind(c(" ", "alpha", alpha[2], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), 
-                        rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tableexplosive))
+tablehelp       = rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tableexplosive)
+tableexpprint   = cbind(c(" ", "alpha", alpha[2], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), tablehelp)
 
 # print tables
+options(digits = 3)
 cat("\014")
-print(tablestatprint, digits = 2)
-print(tableexpprint, digits = 2)
-t1 = Sys.time()
-t1 - t0
+# table for level of test
+tablestatprint
+# table for power of test
+tableexpprint
+
