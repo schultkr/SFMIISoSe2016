@@ -78,7 +78,7 @@ testexp  = mapply(ADFSimtest, expparams[, 1], expparams[, 2])
 
 
 # plot level of test
-par(mfrow = c(1, 2), cex.lab = 1.5)
+par(mfrow = c(1, 2), cex.lab = 1.1)
 matplot(pvec, teststat * 100, type = "l", lwd = 3, ylab = "Rejection Probability", xlab = "Lags", 
         main = "Level of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
