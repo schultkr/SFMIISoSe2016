@@ -35,7 +35,7 @@ two tables for the power and level of the test are printed for the minimum and m
 
 ```
 
-![Picture1](LevelPowerSim.png)
+![Picture1](SFESimADF.png)
 
 ```r
 # === preprocessing ===
@@ -120,12 +120,12 @@ testexp  = mapply(ADFSimtest, expparams[, 1], expparams[, 2])
 # plot level of test
 par(mfrow = c(1, 2), cex.lab = 1.1)
 matplot(pvec, teststat * 100, type = "l", lwd = 3, ylab = "Rejection Probability", xlab = "Lags", 
-        main = "Level of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
+        main = "Power of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
 
 # plot power of test
 matplot(pvec, testexp * 100, type = "l", lwd = 3, ylab = "Rejection Probability", xlab = "Lags", 
-        main = "Power of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
+        main = "Level of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
 
 # round results and use only p = 3 and p = 11
