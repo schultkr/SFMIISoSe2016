@@ -22,7 +22,7 @@ Author: Christoph Schult
 
 Submitted: Mon, May 09 2016 by Christoph Schult
 
-Output: 'A plot for the level (alpha = 0.9) and the power (alpha = 1) of Augmented Dickey-Fuller tests.
+Output: 'A plot for the power (alpha = 0.9) and the level (alpha = 1) of Augmented Dickey-Fuller tests.
 The rejection probability for beta = -0.99 (black), beta = -0.90 (red), beta = 0 (blue), beta = -0.90 
 (green) and beta = -0.99 (magenta) depending on the number of included lags are displayed. In addition
 two tables for the power and level of the test are printed for the minimum and maximum number of lags (p).'
