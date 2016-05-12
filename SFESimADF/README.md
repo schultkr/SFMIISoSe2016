@@ -11,7 +11,7 @@ Published in: Statistics of Financial Markets
 Description: 'Simulates Augmented Dickey-Fuller tests for stationary and non-stationary ARMA processes.
 The simulated process x(t) is x(t) = alpha x(t-1) + beta epsilon(t-1) + epsilon(t), where the error 
 term is a Gaussian White Noise process. Each process is simulated 1000 times. For each simulated process
-the number of lags included for the ADF test varies between 3 to 11.'
+the number of lags (p) included for the ADF test varies between 3 to 11.'
 
 Keywords: 
 - time series
@@ -30,24 +30,25 @@ Submitted: Mon, May 09 2016 by Christoph Schult
 
 Output: 'A plot for the level (alpha = 0.9) and the power (alpha = 1) of Augmented Dickey-Fuller tests.
 The rejection probability for beta = -0.99 (black), beta = -0.90 (red), beta = 0 (blue), beta = -0.90 
-(green) and beta = -0.99 (magenta) depending on the number of included lags are displayed. Two tables
-are printed for the minimum and maximum number of lags.'
+(green) and beta = -0.99 (magenta) depending on the number of included lags are displayed. In addition
+two tables for the power and level of the test are printed for the minimum and maximum number of lags (p).'
 
 ```
 
 ![Picture1](LevelPowerSim.png)
 
 ```r
+# === preprocessing ===
 # remove variables
 rm(list = ls())
 
 # reset graphics
 graphics.off()
-
+set.seed(48)
 # Install packages if not installed
 libraries = c("tseries")
 lapply(libraries, function(Samples) if (!(Samples %in% installed.packages())) {
-  install.packages(Samples)
+    install.packages(Samples)
 })
 
 # Load packages
@@ -81,33 +82,33 @@ isiglevel = 0.05
 # === Define Functions ===
 # define function to create simulated process
 generateprocess = function(alpha, beta, iSample) {
-  epsilon = rnorm(iSample)
-  x       = rep(0, iSample)
-  for (iCounter in 2:iSample) {
-    x[iCounter] = alpha * x[iCounter - 1] + beta * epsilon[iCounter - 1] + epsilon[iCounter]
-  }
-  return(x)
+    epsilon = rnorm(iSample)
+    x       = rep(0, iSample)
+    for (iCounter in 2:iSample) {
+        x[iCounter] = alpha * x[iCounter - 1] + beta * epsilon[iCounter - 1] + epsilon[iCounter]
+    }
+    return(x)
 }
 
 # adftest for varying p
 adftestvaryp = function(pvec, x) {
-  adftestonep = function(p) {
-    return(adf.test(x, alternative = c("stationary"), k = p)$p.value)
-  }
-  pvalues     = apply(pvec, 1, adftestonep)
-  rejection   = as.numeric(pvalues < isiglevel)
-  return(rejection)
+    adftestonep = function(p) {
+        return(adf.test(x, alternative = c("stationary"), k = p)$p.value)
+    }
+    pvalues     = apply(pvec, 1, adftestonep)
+    rejection   = as.numeric(pvalues < isiglevel)
+    return(rejection)
 }
 
 # define function to simulate rejection probabilities
 ADFSimtest = function(alpha, beta) {
-  res = matrix(rep(NaN, iSimulations, length(pvec)), nrow = iSimulations, ncol = length(pvec))
-  for (iSim in 1:iSimulations) {
-    x           = generateprocess(alpha, beta, iSample)
-    res[iSim, ] = adftestvaryp(pvec, x)
-  }
-  rejectionprob = colMeans(res)
-  return(rejectionprob)
+    res = matrix(rep(NaN, iSimulations, length(pvec)), nrow = iSimulations, ncol = length(pvec))
+    for (iSim in 1:iSimulations) {
+        x           = generateprocess(alpha, beta, iSample)
+        res[iSim, ] = adftestvaryp(pvec, x)
+    }
+    rejectionprob = colMeans(res)
+    return(rejectionprob)
 }
 
 # === Main Computation ===
@@ -117,7 +118,7 @@ testexp  = mapply(ADFSimtest, expparams[, 1], expparams[, 2])
 
 
 # plot level of test
-par(mfrow = c(1, 2))
+par(mfrow = c(1, 2), cex.lab = 1.1)
 matplot(pvec, teststat * 100, type = "l", lwd = 3, ylab = "Rejection Probability", xlab = "Lags", 
         main = "Level of ADF Test", col = c("black", "red3", "blue3", "green3", "magenta3"), 
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
@@ -128,17 +129,21 @@ matplot(pvec, testexp * 100, type = "l", lwd = 3, ylab = "Rejection Probability"
         xlim = c(min(pvec), max(pvec)), ylim = c(0, 100))
 
 # round results and use only p = 3 and p = 11
-tablestationary = round(teststat[c(1, length(pvec)), ], digits = 2)
-tableexplosive  = round(testexp[c(1, length(pvec)), ], digits = 2)
+tablestationary = round(teststat[c(1, length(pvec)), ], digits = 3)
+tableexplosive  = round(testexp[c(1, length(pvec)), ], digits = 3)
 
-tablestatprint  = cbind(c(" ", "alpha", alpha[1], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), 
-                        rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tablestationary))
+tablehelp       = rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tablestationary)
+tablestatprint  = cbind(c(" ", "alpha", alpha[1], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), tablehelp)
 
-tableexpprint   = cbind(c(" ", "alpha", alpha[2], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), 
-                        rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tableexplosive))
+tablehelp       = rbind(c(" ", " ", "beta", " ", " "), sapply(beta, as.character), tableexplosive)
+tableexpprint   = cbind(c(" ", "alpha", alpha[2], " "), c(" ", "p", pvec[1], pvec[length(pvec)]), tablehelp)
 
 # print tables
+options(digits = 3)
 cat("\014")
-print(tablestatprint, digits = 2)
-print(tableexpprint, digits = 2) 
+# table for level of test
+tablestatprint
+# table for power of test
+tableexpprint
+
 ```
